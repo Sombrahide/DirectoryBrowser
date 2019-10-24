@@ -9,7 +9,6 @@ package juanjomp.directorybrowser;
  *
  * @author Juanjo
  */
-
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.File;
@@ -137,18 +136,49 @@ public class Browser {
                     lastEntry = TreatEntry.EntryType.HELP;
                     break;
                 case CREATEDIR:
+                    for (String parameter : TreatEntryText.obtainParameters()) {
+                        auxDirectory = new File(parameter);
+                        if (!auxDirectory.exists()) {
+                            auxDirectory.mkdir();
+                        }
+                    }
                     lastEntry = TreatEntry.EntryType.CREATEDIR;
                     break;
+
                 case CREATEFILE:
+                    for (String parameter : TreatEntryText.obtainParameters()) {
+                        auxDirectory = new File(parameter);
+                        try {
+                            auxDirectory.createNewFile();
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
                     lastEntry = TreatEntry.EntryType.CREATEFILE;
                     break;
                 case SORTBY:
                     lastEntry = TreatEntry.EntryType.SORTBY;
                     break;
                 case DELETEDIR:
+                    String[] entries;
+                    for (String parameter : TreatEntryText.obtainParameters()) {
+                        auxDirectory = new File(parameter);
+                        if (!auxDirectory.exists()) {
+                            entries = auxDirectory.list();
+                            for (String s : entries) {
+                                File currentFile = new File(auxDirectory.getPath(), s);
+                                currentFile.delete();
+                            }
+                            auxDirectory.delete();
+                        }
+                    }
                     lastEntry = TreatEntry.EntryType.DELETEDIR;
                     break;
                 case DELETEFILE:
+                    for (String parameter : TreatEntryText.obtainParameters()) {
+                        auxDirectory = new File(parameter);
+                        auxDirectory.delete();
+                    }
                     lastEntry = TreatEntry.EntryType.DELETEFILE;
                     break;
                 case EXIT:
