@@ -10,8 +10,9 @@ package juanjomp.directorybrowser;
  * @author Juanjo
  */
 public class Init {
-    public void main (String args[]){
+
+    public static void main(String args[]) {
         Browser buscador = new Browser();
-        buscador.initBrowser(args);
+        buscador.initBrowser();
     }
 }

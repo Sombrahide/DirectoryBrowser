@@ -22,8 +22,9 @@ import java.io.IOException;
  */
 public class Browser {
 
-    public void initBrowser(String args[]) {
+    public void initBrowser() {
         Scanner sc = new Scanner(System.in);
+        WriteLog log = new WriteLog("log.txt", true);
         String entryText = "";
         File previousDirectory = new File("");
         File currentDirectory = new File("");
@@ -36,6 +37,11 @@ public class Browser {
         while (lastEntry != TreatEntry.EntryType.EXIT) {
             System.out.print(currentDirectory.getAbsolutePath() + ">");
             entryText = sc.nextLine();
+            try {
+                log.writeToLog(entryText);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
             TreatEntryText = new TreatEntry(entryText);
             switch (TreatEntryText.obtainEntryType()) {
                 case GOTO:
@@ -78,9 +84,23 @@ public class Browser {
                     lastEntry = TreatEntry.EntryType.UP;
                     break;
                 case INFOFILE:
+                    auxDirectory = new File(TreatEntryText.obtainParameters()[0]);
+                    if (auxDirectory.exists() && auxDirectory.isFile()) {
+                        System.out.println("    >> Name: " + auxDirectory.getName());
+                        System.out.println("    >> Last Modified: " + auxDirectory.lastModified());
+                    } else {
+                        System.out.println("El nombre dado no existe o no es un archivo\n");
+                    }
                     lastEntry = TreatEntry.EntryType.INFOFILE;
                     break;
                 case INFODIR:
+                    auxDirectory = new File(TreatEntryText.obtainParameters()[0]);
+                    if (auxDirectory.exists() && auxDirectory.isDirectory()) {
+                        System.out.println("    >> Name: " + auxDirectory.getName());
+                        System.out.println("    >> Last Modified: " + auxDirectory.lastModified());
+                    } else {
+                        System.out.println("El nombre dado no existe o no es un directorio\n");
+                    }
                     lastEntry = TreatEntry.EntryType.INFODIR;
                     break;
                 case HELP:
@@ -140,6 +160,8 @@ public class Browser {
                         auxDirectory = new File(parameter);
                         if (!auxDirectory.exists()) {
                             auxDirectory.mkdir();
+                        } else {
+                            System.out.println("El directorio ya existe\n");
                         }
                     }
                     lastEntry = TreatEntry.EntryType.CREATEDIR;
@@ -148,22 +170,35 @@ public class Browser {
                 case CREATEFILE:
                     for (String parameter : TreatEntryText.obtainParameters()) {
                         auxDirectory = new File(parameter);
-                        try {
-                            auxDirectory.createNewFile();
-                        } catch (IOException e) {
-                            System.out.println(e.getMessage());
+                        if (!auxDirectory.exists()) {
+                            try {
+                                auxDirectory.createNewFile();
+                            } catch (IOException e) {
+                                System.out.println(e.getMessage());
+                            }
+                        } else {
+                            System.out.println("El archivo ya no existe\n");
                         }
                     }
                     lastEntry = TreatEntry.EntryType.CREATEFILE;
                     break;
                 case SORTBY:
+                    TreatEntry.SortType sortType = TreatEntryText.obtainSortType();
+                    switch (sortType) {
+                        case NAME:
+                            System.out.println("Metodo aun no soportado");
+                            break;
+                        case DATE:
+                            System.out.println("Metodo aun no soportado");
+                            break;
+                    }
                     lastEntry = TreatEntry.EntryType.SORTBY;
                     break;
                 case DELETEDIR:
                     String[] entries;
                     for (String parameter : TreatEntryText.obtainParameters()) {
                         auxDirectory = new File(parameter);
-                        if (!auxDirectory.exists()) {
+                        if (auxDirectory.exists() && auxDirectory.isDirectory()) {
                             entries = auxDirectory.list();
                             for (String s : entries) {
                                 File currentFile = new File(auxDirectory.getPath(), s);
@@ -177,7 +212,9 @@ public class Browser {
                 case DELETEFILE:
                     for (String parameter : TreatEntryText.obtainParameters()) {
                         auxDirectory = new File(parameter);
-                        auxDirectory.delete();
+                        if (auxDirectory.exists() && auxDirectory.isDirectory()) {
+                            auxDirectory.delete();
+                        }
                     }
                     lastEntry = TreatEntry.EntryType.DELETEFILE;
                     break;

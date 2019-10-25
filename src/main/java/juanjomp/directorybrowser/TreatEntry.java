@@ -28,9 +28,15 @@ public class TreatEntry {
         EXIT;
     }
 
+    public enum SortType {
+        NAME,
+        DATE;
+    }
+
     private String _entry;
     private String _error;
     private EntryType _entryType;
+    private SortType _sortType;
     private String[] _parameters;
 
     private void loadObject() {
@@ -80,6 +86,7 @@ public class TreatEntry {
                         this._entryType = EntryType.ERROR;
                         this._error = "Nombre de parametros incorrecto";
                     }
+                break;
                 case "infofile":
                     if (elements.length > 1) {
                         this._entryType = EntryType.INFOFILE;
@@ -143,11 +150,19 @@ public class TreatEntry {
                     }
                     break;
                 case "sortby":
-                    if (elements.length > 1 && elements.length < 4) {
+                    if (elements.length == 1) {
                         this._entryType = EntryType.SORTBY;
-                        this._parameters = new String[elements.length - 1];
-                        for (int i = 0; i < _parameters.length; i++) {
-                            this._parameters[i] = elements[i + 1];
+                        elements[1] = elements[1].toLowerCase();
+                        switch (elements[1]) {
+                            case ("name"):
+                                _sortType = SortType.NAME;
+                                break;
+                            case ("date"):
+                                _sortType = SortType.DATE;
+                                break;
+                            default:
+                                System.out.println("Se ha usado un metodo de ordenacion no valido, intente usar uno de los siguiente:\n     NAME\n      DATE");
+                                break;
                         }
                     } else {
                         this._entryType = EntryType.ERROR;
@@ -202,6 +217,10 @@ public class TreatEntry {
 
     public String[] obtainParameters() {
         return this._parameters;
+    }
+
+    public SortType obtainSortType() {
+        return this._sortType;
     }
 
     public String obtainError() {
