@@ -15,6 +15,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  *
@@ -23,22 +27,30 @@ import java.io.IOException;
 public class Browser {
 
     public void initBrowser() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         Scanner sc = new Scanner(System.in);
         WriteLog log = new WriteLog("log.txt", true);
+        String [] entries;
         String entryText = "";
+        final String dir = System.getProperty("user.dir");
         File previousDirectory = new File("");
-        File currentDirectory = new File("");
+        File currentDirectory = new File(dir);
 
         TreatEntry.EntryType lastEntry = null;
 
         File auxDirectory;
         TreatEntry TreatEntryText;
-
+        try {
+            log.writeToLog(dtf.format(LocalDateTime.now()) + "\n===================");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
         while (lastEntry != TreatEntry.EntryType.EXIT) {
             System.out.print(currentDirectory.getAbsolutePath() + ">");
             entryText = sc.nextLine();
             try {
-                log.writeToLog(entryText);
+                log.writeToLog(" " + entryText);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
@@ -87,7 +99,7 @@ public class Browser {
                     auxDirectory = new File(TreatEntryText.obtainParameters()[0]);
                     if (auxDirectory.exists() && auxDirectory.isFile()) {
                         System.out.println("    >> Name: " + auxDirectory.getName());
-                        System.out.println("    >> Last Modified: " + auxDirectory.lastModified());
+                        System.out.println("    >> Last Modified: " + sdf.format(new Date(auxDirectory.lastModified())));
                     } else {
                         System.out.println("El nombre dado no existe o no es un archivo\n");
                     }
@@ -97,7 +109,7 @@ public class Browser {
                     auxDirectory = new File(TreatEntryText.obtainParameters()[0]);
                     if (auxDirectory.exists() && auxDirectory.isDirectory()) {
                         System.out.println("    >> Name: " + auxDirectory.getName());
-                        System.out.println("    >> Last Modified: " + auxDirectory.lastModified());
+                        System.out.println("    >> Last Modified: " + sdf.format(new Date(auxDirectory.lastModified())));
                     } else {
                         System.out.println("El nombre dado no existe o no es un directorio\n");
                     }
@@ -137,7 +149,9 @@ public class Browser {
                                 System.out.println("CreateFile:\n*Crear un fichero.\n");
                                 break;
                             case "sortby":
-                                System.out.println("SortBy:\n*Mostrar el contenido del directorio indicado de forma ordenada segun el usuario.\n");
+                                System.out.println("SortBy:\n*Mostrar el contenido del directorio indicado de forma ordenada segun el usuario.\n"
+                                        + " NAME: Ordenas de forma alfabetica\n"
+                                        + " DATE: Ordenas segun la ultima fecha de modificacion\n");
                                 break;
                             case "deletedir":
                                 System.out.println("DeleteDir:\n*Borrar el/los directorios indicados.\n");
@@ -184,18 +198,50 @@ public class Browser {
                     break;
                 case SORTBY:
                     TreatEntry.SortType sortType = TreatEntryText.obtainSortType();
+                    entries = currentDirectory.list();
+                    String auxString;
                     switch (sortType) {
                         case NAME:
-                            System.out.println("Metodo aun no soportado");
+                            for (int i = 0; i < entries.length; i++){
+                                for (int y = i+1; y < entries.length; y++){
+                                    if (entries[i].compareTo(entries[y])>0){
+                                        auxString = entries[i];
+                                        entries[i] = entries[y];
+                                        entries[y] = auxString;
+                                    }
+                                }
+                            }
                             break;
                         case DATE:
-                            System.out.println("Metodo aun no soportado");
+                            File [] entriesFiles = new File[entries.length];
+                            for (int i = 0; i < entries.length; i++){
+                                entriesFiles[i] = new File(entries[i]);
+                            }
+                            for (int i = 0; i < entries.length; i++){
+                                for (int y = i+1; y < entries.length; y++){
+                                    if (entriesFiles[i].lastModified() < entriesFiles[y].lastModified()){
+                                        auxString = entries[i];
+                                        entries[i] = entries[y];
+                                        entries[y] = auxString;
+                                        
+                                        auxDirectory = entriesFiles[i];
+                                        entriesFiles[i] = entriesFiles[y];
+                                        entriesFiles[y] = auxDirectory;
+                                    }
+                                }
+                            }
                             break;
+                    }
+                    if (entries != null && entries.length > 0) {
+                        for (String item : entries) {
+                            System.out.println(">> " + item);
+                        }
+                    } else {
+                        System.out.println("Directorio sin elementos\n");
                     }
                     lastEntry = TreatEntry.EntryType.SORTBY;
                     break;
                 case DELETEDIR:
-                    String[] entries;
                     for (String parameter : TreatEntryText.obtainParameters()) {
                         auxDirectory = new File(parameter);
                         if (auxDirectory.exists() && auxDirectory.isDirectory()) {
@@ -228,6 +274,10 @@ public class Browser {
                     break;
             }
         }
-
+        try {
+            log.writeToLog("\n===================\n\n");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

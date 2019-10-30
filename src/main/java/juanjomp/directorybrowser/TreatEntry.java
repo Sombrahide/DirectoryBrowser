@@ -150,7 +150,7 @@ public class TreatEntry {
                     }
                     break;
                 case "sortby":
-                    if (elements.length == 1) {
+                    if (elements.length == 2) {
                         this._entryType = EntryType.SORTBY;
                         elements[1] = elements[1].toLowerCase();
                         switch (elements[1]) {
