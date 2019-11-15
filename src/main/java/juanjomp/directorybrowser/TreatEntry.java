@@ -24,6 +24,8 @@ public class TreatEntry {
         SORTBY,
         DELETEDIR,
         DELETEFILE,
+        CHANGEIDIOM,
+        SCRIPT,
         ERROR,
         EXIT;
     }
@@ -54,7 +56,7 @@ public class TreatEntry {
                         this._entryType = EntryType.GOTO;
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "golast":
@@ -62,7 +64,7 @@ public class TreatEntry {
                         this._entryType = EntryType.GOLAST;
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "list":
@@ -76,7 +78,7 @@ public class TreatEntry {
                         this._parameters[0] = elements[1];
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "up":
@@ -84,7 +86,7 @@ public class TreatEntry {
                         this._entryType = EntryType.UP;
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                 break;
                 case "infofile":
@@ -96,7 +98,7 @@ public class TreatEntry {
                         }
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "infodir":
@@ -108,7 +110,7 @@ public class TreatEntry {
                         }
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "help":
@@ -122,7 +124,7 @@ public class TreatEntry {
                         this._parameters[0] = elements[1].toLowerCase();
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "createdir":
@@ -134,7 +136,7 @@ public class TreatEntry {
                         }
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "createfile":
@@ -146,7 +148,7 @@ public class TreatEntry {
                         }
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "sortby":
@@ -166,7 +168,7 @@ public class TreatEntry {
                         }
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "deletedir":
@@ -178,7 +180,7 @@ public class TreatEntry {
                         }
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "deletefile":
@@ -190,7 +192,27 @@ public class TreatEntry {
                         }
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
+                    }
+                    break;
+                case "changeidiom":
+                    if (elements.length == 1){
+                        this._entryType = EntryType.CHANGEIDIOM;
+                        this._parameters = new String[elements.length - 1];
+                        this._parameters[0] = elements[1];}
+                    else {
+                        this._entryType = EntryType.ERROR;
+                        this._error = "Incorrect number of parameters";
+                    }
+                    break;
+                case "script":
+                    if (elements.length == 1){
+                        this._entryType = EntryType.SCRIPT;
+                        this._parameters = new String[elements.length - 1];
+                        this._parameters[0] = elements[1];}
+                    else {
+                        this._entryType = EntryType.ERROR;
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 case "exit":
@@ -198,7 +220,7 @@ public class TreatEntry {
                         this._entryType = EntryType.EXIT;
                     } else {
                         this._entryType = EntryType.ERROR;
-                        this._error = "Nombre de parametros incorrecto";
+                        this._error = "Incorrect number of parameters";
                     }
                     break;
                 default:

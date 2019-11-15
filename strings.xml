@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<commands>
+    <command id="directory">
+        <esp>directorio</esp>
+        <eng>directory</eng>
+    </command>
+    <command id="file">
+        <esp>archivo</esp>
+        <eng>file</eng>
+    </command>
+    <command id="erased">
+        <esp>borrado</esp>
+        <eng>erased</eng>
+    </command>
+    <command id="notFound">
+        <esp>no encontrado</esp>
+        <eng>not found</eng>
+    </command>
+    <command id="withNoElements">
+        <esp>sin elementos</esp>
+        <eng>with no elements</eng>
+    </command>
+    <command id="cantUpMore">
+        <esp>No puedes subir mas</esp>
+        <eng>You can't go more up</eng>
+    </command>
+    <command id="info">
+        <field id="name">
+            <esp>Nombre</esp>
+            <eng>Name</eng>    
+        </field>
+        <field id="lastModified">
+            <esp>Ultima modificacion</esp>
+            <eng>Last Modified</eng>
+        </field>
+    </command>
+    <command id="noExist">
+        <esp>El nombre dado no existe o no es un</esp>
+        <eng>The given name no exist o isn't a</eng>
+    </command>
+    <command id="commandList">
+        <esp>Lista de Comandos</esp>
+        <eng>Command List</eng>
+        <field id="goto">
+            <esp>Ir al directorio indicado</esp>
+            <eng>Go to the indicated directory</eng>
+        </field>
+        <field id="golast">
+            <esp>Ir al ultimo directorio que se visito</esp>
+            <eng>Go to the last directory visited</eng>
+        </field>
+        <field id="list">
+            <esp>Listar una lista de elementos del directorio actual</esp>
+            <eng>List a list of items in the current directory</eng>
+        </field>
+        <field id="up">
+            <esp>Ir al directorio padre</esp>
+            <eng>Go to parent directory</eng>
+        </field>
+        <field id="infofile">
+            <esp>Informacion del fichero indicado</esp>
+            <eng>Information of the indicated file</eng>
+        </field>
+        <field id="infodir">
+            <esp>Informacion del directorio indicado</esp>
+            <eng>Information of the indicated directory</eng>
+        </field>
+        <field id="help">
+            <esp>Mostrar todos los comandos, en caso de indicar un parametro dar mas informacion sobre este</esp>
+            <eng>Show all commands, if you indicate a parameter, give more information about this</eng>
+        </field><field id="createdir">
+            <esp>Crear un directorio</esp>
+            <eng>Create a directory</eng>
+        </field>
+        <field id="sortby">
+            <esp>Mostrar el contenido del directorio indicado de forma ordenada segun el usuario</esp>
+            <eng>Show the contents of the indicated directory in an orderly manner according to the user</eng>
+            <subfield id="name">
+                <esp>Ordenas de forma alfabetica</esp>
+                <eng>Sort alphabetically</eng>
+            </subfield>
+            <subfield id="date">
+                <esp>Ordenas segun la ultima fecha de modificacion</esp>
+                <eng>Orders according to the last modification date</eng>
+            </subfield>
+        </field>
+        <field id="deletedir">
+            <esp>Borra los directorios indicados</esp>
+            <eng>Delete the indicated directories</eng>
+        </field>
+        <field id="deletefile">
+            <esp>Borrar el/los ficheros indicados</esp>
+            <eng>Delete the indicated files</eng>
+        </field>
+		<field id="changeidiom">
+			<esp>Cambia el idioma al de tu eleccion</esp>
+			<eng>Change the idiom of your election</eng>
+			<subfield id="esp">
+				<esp>Español</esp>
+				<eng>Spanish</eng>
+			</subfield>
+			<subfield id="eng">
+				<esp>Ingles</esp>
+				<eng>English</eng>
+			</subfield>
+		</field>
+		<field id="script">
+			<esp>Carga un script</esp>
+			<eng>Load a script</eng>
+		</field>
+        <field id="exit">
+            <esp>Salir del programa</esp>
+            <eng>Exit the program</eng>
+        </field>
+        <field id="error">
+            <esp>El comando indicado no existe</esp>
+            <eng>The command no exist</eng>
+        </field>
+    </command>
+	<command id="changeidiom">
+		<esp>El idioma ha sido cambiado</esp>
+		<eng>The language is changed</eng>
+	</command>
+	<command id="script">
+		<esp>Cargando script</esp>
+		<eng>Loading script</eng>
+	</command>
+    <command id="alreadyExist">
+        <esp>ya existe</esp>
+        <eng>already exist</eng>
+    </command>
+    <command id="exit">
+        <esp>Saliendo de la aplicacion</esp>
+        <eng>Shutting down the aplication</eng>
+    </command>
+</commands>
